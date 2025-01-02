@@ -58,7 +58,7 @@ function __prompt_git() {
   [[ $? != 0 ]] && return 1;
   branch="$(echo "$status" | awk '/# Initial commit/ {print "(init)"}')"
   [[ "$branch" ]] || branch="$(echo "$status" | awk '/# On branch/ {print $4}')"
-  [[ "$branch" ]] || branch="$(git branch | perl -ne '/^\* \(detached from (.*)\)$/ ? print "($1)" : /^\* (.*)/ && print $1')"
+  [[ "$branch" ]] || branch="$(git branch --format='%(refname:short)')"
   flags="$(
     echo "$status" | awk 'BEGIN {r=""} \
         /^(# )?Changes to be committed:$/        {r=r "+"}\
